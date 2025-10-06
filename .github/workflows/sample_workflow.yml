@@ -9,46 +9,44 @@ on:
       - main
 
 jobs:
-  stage1:
+  backend-tests:
     runs-on: ubuntu-latest
     steps:
-      - name: stage1 job1
-        run: echo "job1"
-      - name: stage1 job2
-        run: echo "job2"
+      - name: Checkout code
+        uses: actions/checkout@v4
+        run: echo "need to checkout code for every job"
+      - name: set up python and env
+        run: echo "setting up python and install requirements.txt"
 
-  stage2:
+  frontend-tests-chrome:
     runs-on: ubuntu-latest
-    needs: stage1
     steps:
-      - name: stage2 job1
-        run: echo "job1"
-      - name: stage2 job2
-        run: echo "job2"
+      - name: Checkout code
+        uses: actions/checkout@v4
+        run: echo "need to checkout code for every job"
+      - name: set up python and env
+        run: echo "setting up python and install requirements.txt"
+      - name: Run tests on chrome
+        run: echo "use remote browser and webdriver to have docker container inside ubuntu vm.
+                  "map the localhost of ubuntu to docker container to access test"
+  frontend-tests-firefox:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        run: echo "checkout the code"
+      - name: set up python and env
+        run: echo "set up python and pip install -r requrements.txt"
+      - name: run tests in remote firefox
+        run: echo "setting up remote firefox on docker container in ubuntu vm. running the tests"
 
-  stage3:
+  deploy-somewhere:
     runs-on: ubuntu-latest
-    needs: stage2
+    needs: 
+    - backend-tests
+    - frontend-tests-firefox
+    - frontend-tests-chrome
+    
     steps:
-      - name: stage3 job1
-        run: echo "job1"
-      - name: stage3 job2
-        run: echo "job2"
-
-  stage4:
-    runs-on: ubuntu-latest
-    needs: stage3
-    steps:
-      - name: stage4 job1
-        run: echo "job1"
-      - name: stage4 job2
-        run: echo "job2"
-
-  stage5:
-    runs-on: ubuntu-latest
-    needs: stage4
-    steps:
-      - name: stage5 job1
-        run: echo "job1"
-      - name: stage5 job2
-        run: echo "job2"
+      - name: Deploy to another server
+        run: echo "deploying to staging server"
