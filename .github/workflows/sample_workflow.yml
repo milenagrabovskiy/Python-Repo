@@ -1,0 +1,54 @@
+name: sample echo pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  stage1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: stage1 job1
+        run: echo "job1"
+      - name: stage1 job2
+        run: echo "job2"
+
+  stage2:
+    runs-on: ubuntu-latest
+    needs: stage1
+    steps:
+      - name: stage2 job1
+        run: echo "job1"
+      - name: stage2 job2
+        run: echo "job2"
+
+  stage3:
+    runs-on: ubuntu-latest
+    needs: stage2
+    steps:
+      - name: stage3 job1
+        run: echo "job1"
+      - name: stage3 job2
+        run: echo "job2"
+
+  stage4:
+    runs-on: ubuntu-latest
+    needs: stage3
+    steps:
+      - name: stage4 job1
+        run: echo "job1"
+      - name: stage4 job2
+        run: echo "job2"
+
+  stage5:
+    runs-on: ubuntu-latest
+    needs: stage4
+    steps:
+      - name: stage5 job1
+        run: echo "job1"
+      - name: stage5 job2
+        run: echo "job2"
